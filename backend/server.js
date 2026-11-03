@@ -11,8 +11,12 @@ const PORT = process.env.PORT || 5001;
 const trackerRoutes = require('./routes/tracker');
 
 // Middlewares
+// CORS_ORIGIN: "*" or a comma-separated list of allowed frontend URLs
+// (e.g. https://hdfc-tracker.onrender.com). Trailing slashes are ignored.
+const corsOrigins = (process.env.CORS_ORIGIN || '*')
+  .split(',').map(o => o.trim().replace(/\/$/, '')).filter(Boolean);
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
+  origin: corsOrigins.includes('*') ? '*' : corsOrigins,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
