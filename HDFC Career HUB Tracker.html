@@ -1,0 +1,734 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>HDFC Career HUB Tracker</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --navy: #003580;
+    --navy-dark: #002260;
+    --navy-light: #e8eef7;
+    --red: #D32F2F;
+    --white: #ffffff;
+    --gray-50: #f8f9fa;
+    --gray-100: #f1f3f5;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-600: #6c757d;
+    --gray-800: #343a40;
+    --text: #1a1a2e;
+    --border: #d0d7e3;
+    --success: #2e7d32;
+    --success-bg: #e8f5e9;
+    --warning: #e65100;
+    --warning-bg: #fff3e0;
+    --info: #1565c0;
+    --info-bg: #e3f2fd;
+    --hold: #6a1b9a;
+    --hold-bg: #f3e5f5;
+    --complete-bg: #e8f5e9;
+    --shadow: 0 2px 8px rgba(0,53,128,0.10);
+    --shadow-lg: 0 4px 20px rgba(0,53,128,0.13);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --navy: #4a7fd4;
+      --navy-dark: #2b5aaa;
+      --navy-light: #1a2540;
+      --white: #1e2a3a;
+      --gray-50: #151d2b;
+      --gray-100: #1a2436;
+      --gray-200: #223047;
+      --gray-300: #2d3f5a;
+      --gray-600: #8fa8c8;
+      --gray-800: #c8d8ee;
+      --text: #d8e8f8;
+      --border: #2d4060;
+      --shadow: 0 2px 8px rgba(0,0,0,0.4);
+      --shadow-lg: 0 4px 20px rgba(0,0,0,0.5);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --navy: #4a7fd4; --navy-dark: #2b5aaa; --navy-light: #1a2540;
+    --white: #1e2a3a; --gray-50: #151d2b; --gray-100: #1a2436;
+    --gray-200: #223047; --gray-300: #2d3f5a; --gray-600: #8fa8c8;
+    --gray-800: #c8d8ee; --text: #d8e8f8; --border: #2d4060;
+    --shadow: 0 2px 8px rgba(0,0,0,0.4); --shadow-lg: 0 4px 20px rgba(0,0,0,0.5);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--gray-50);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--navy);
+    color: #fff;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-lg);
+  }
+  .header-logo {
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.3px;
+    white-space: nowrap;
+  }
+  .header-logo span { color: #ff9800; }
+  .header-sub {
+    font-size: 12px;
+    opacity: 0.75;
+    font-weight: 400;
+    border-left: 1px solid rgba(255,255,255,0.25);
+    padding-left: 16px;
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+  .header-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .live-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #4caf50;
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+  .live-label { font-size: 11px; opacity: 0.8; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.4; }
+  }
+
+  /* ── SUMMARY BAR ── */
+  .summary-bar {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .stat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  .stat-pill:hover { filter: brightness(0.92); }
+  .stat-pill.active { border-color: var(--navy); }
+  .stat-pill .num { font-size: 14px; }
+  .pill-all { background: var(--navy-light); color: var(--navy); }
+  .pill-ip { background: var(--info-bg); color: var(--info); }
+  .pill-ns { background: var(--gray-200); color: var(--gray-800); }
+  .pill-done { background: var(--success-bg); color: var(--success); }
+  .pill-ongoing { background: #fff8e1; color: #f57f17; }
+  .pill-hold { background: var(--hold-bg); color: var(--hold); }
+  .summary-bar-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+
+  /* ── FILTERS ── */
+  .filters {
+    background: var(--white);
+    padding: 10px 24px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+  }
+  .filter-label { font-size: 12px; color: var(--gray-600); font-weight: 500; }
+  select, input[type="text"] {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 13px;
+    background: var(--gray-50);
+    color: var(--text);
+    outline: none;
+    transition: border 0.15s;
+  }
+  select:focus, input[type="text"]:focus { border-color: var(--navy); }
+  input[type="text"] { width: 200px; }
+  .btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-primary { background: var(--navy); color: #fff; }
+  .btn-primary:hover { background: var(--navy-dark); }
+  .btn-ghost { background: transparent; color: var(--gray-600); border: 1px solid var(--border); }
+  .btn-ghost:hover { background: var(--gray-100); }
+
+  /* ── TABLE ── */
+  .table-wrap {
+    padding: 16px 24px;
+    overflow-x: auto;
+    overflow-y: visible;
+  }
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  thead th {
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: left;
+    white-space: nowrap;
+  }
+  thead th:first-child { border-radius: 0; }
+  tbody tr { border-bottom: 1px solid var(--gray-100); transition: background 0.1s; }
+  tbody tr:hover { background: var(--gray-50); }
+  tbody tr:last-child { border-bottom: none; }
+  td { padding: 10px 12px; vertical-align: top; font-size: 13px; }
+
+  .col-ref { width: 58px; white-space: nowrap; }
+  .col-milestone { width: 180px; }
+  .col-activity { min-width: 200px; }
+  .col-owner { width: 120px; white-space: nowrap; }
+  .col-dates { width: 96px; white-space: nowrap; font-size: 11px; color: var(--gray-600); }
+  .col-status { width: 130px; }
+  .col-remarks { min-width: 220px; }
+  .col-actions { width: 72px; text-align: center; }
+
+  .ref-badge {
+    display: inline-block;
+    background: var(--navy-light);
+    color: var(--navy);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .milestone-pill {
+    font-size: 11px;
+    color: var(--gray-600);
+    line-height: 1.3;
+  }
+
+  /* Status badges */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .s-inprogress { background: var(--info-bg); color: var(--info); }
+  .s-completed { background: var(--success-bg); color: var(--success); }
+  .s-ongoing { background: #fff8e1; color: #e65100; }
+  .s-notstarted { background: var(--gray-200); color: var(--gray-800); }
+  .s-onhold { background: var(--hold-bg); color: var(--hold); }
+
+  /* Status dropdown in edit mode */
+  select.status-select {
+    font-size: 12px;
+    padding: 4px 8px;
+    width: 130px;
+    border-radius: 6px;
+  }
+
+  /* Remarks */
+  .remarks-text {
+    font-size: 12px;
+    color: var(--gray-800);
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .remarks-text.empty { color: var(--gray-600); font-style: italic; }
+  textarea.remarks-input {
+    width: 100%;
+    min-height: 70px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 12px;
+    font-family: inherit;
+    background: var(--gray-50);
+    color: var(--text);
+    resize: vertical;
+    outline: none;
+  }
+  textarea.remarks-input:focus { border-color: var(--navy); }
+
+  /* Edit button */
+  .btn-edit {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 11px;
+    cursor: pointer;
+    color: var(--gray-600);
+    transition: all 0.15s;
+  }
+  .btn-edit:hover { background: var(--navy-light); color: var(--navy); border-color: var(--navy); }
+  .btn-save {
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    margin-bottom: 4px;
+  }
+  .btn-save:hover { background: var(--navy-dark); }
+  .btn-cancel {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    color: var(--gray-600);
+    width: 100%;
+  }
+  .btn-cancel:hover { background: var(--gray-100); }
+
+  .saving-indicator {
+    font-size: 11px;
+    color: var(--navy);
+    display: none;
+  }
+  .saving-indicator.show { display: inline; }
+
+  /* Group header row */
+  .group-header td {
+    background: var(--navy-light);
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  /* Toast */
+  #toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #1a1a2e;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    z-index: 999;
+    transition: transform 0.3s ease;
+    white-space: nowrap;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Loading */
+  .loading-row td {
+    text-align: center;
+    padding: 40px;
+    color: var(--gray-600);
+    font-size: 13px;
+  }
+  .spinner {
+    display: inline-block;
+    width: 20px; height: 20px;
+    border: 2px solid var(--gray-200);
+    border-top-color: var(--navy);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--gray-600);
+  }
+  .empty-state svg { opacity: 0.3; margin-bottom: 12px; }
+
+  /* Progress bar in summary */
+  .progress-bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .progress-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    overflow: hidden;
+    min-width: 80px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--navy);
+    border-radius: 3px;
+    transition: width 0.4s;
+  }
+  .progress-label { font-size: 12px; font-weight: 600; color: var(--navy); white-space: nowrap; }
+
+  /* Updated timestamp */
+  .updated-ts { font-size: 10px; color: var(--gray-600); font-style: italic; }
+
+  @media (max-width: 600px) {
+    .header-sub { display: none; }
+    .filters input[type="text"] { width: 140px; }
+    .table-wrap { padding: 8px 8px; }
+    .summary-bar { padding: 10px 8px; }
+  }
+</style>
+
+<div class="header">
+  <div class="header-logo">HDFC <span>Career HUB</span></div>
+  <div class="header-sub">Powered by NIIT · Live Tracker</div>
+  <div class="header-right">
+    <div class="live-dot"></div>
+    <div class="live-label">Live</div>
+  </div>
+</div>
+
+<div class="summary-bar" id="summaryBar">
+  <div class="stat-pill pill-all active" onclick="filterStatus('')" id="pill-all">
+    <span class="num" id="cnt-all">—</span> All
+  </div>
+  <div class="stat-pill pill-ip" onclick="filterStatus('In Progress')" id="pill-ip">
+    <span class="num" id="cnt-ip">—</span> In Progress
+  </div>
+  <div class="stat-pill pill-ongoing" onclick="filterStatus('Ongoing')" id="pill-ongoing">
+    <span class="num" id="cnt-ongoing">—</span> Ongoing
+  </div>
+  <div class="stat-pill pill-done" onclick="filterStatus('Completed')" id="pill-completed">
+    <span class="num" id="cnt-completed">—</span> Completed
+  </div>
+  <div class="stat-pill pill-ns" onclick="filterStatus('Not Started')" id="pill-ns">
+    <span class="num" id="cnt-ns">—</span> Not Started
+  </div>
+  <div class="stat-pill pill-hold" onclick="filterStatus('On Hold')" id="pill-hold">
+    <span class="num" id="cnt-hold">—</span> On Hold
+  </div>
+  <div class="summary-bar-right">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-label" id="progressLabel">0%</div>
+    </div>
+  </div>
+</div>
+
+<div class="filters">
+  <span class="filter-label">Filter:</span>
+  <select id="filterMilestone" onchange="applyFilters()">
+    <option value="">All Milestones</option>
+  </select>
+  <input type="text" id="filterSearch" placeholder="Search activity…" oninput="applyFilters()">
+  <button class="btn btn-ghost" onclick="clearFilters()">Clear</button>
+  <span class="saving-indicator" id="globalSaving">⟳ Saving…</span>
+</div>
+
+<div class="table-wrap">
+  <table id="mainTable">
+    <thead>
+      <tr>
+        <th class="col-ref">Ref</th>
+        <th class="col-milestone">Milestone</th>
+        <th class="col-activity">Activity / Deliverable</th>
+        <th class="col-owner">Owner</th>
+        <th class="col-dates">Dates</th>
+        <th class="col-status">Status</th>
+        <th class="col-remarks">Remarks</th>
+        <th class="col-actions">Edit</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <tr class="loading-row"><td colspan="8"><span class="spinner"></span> Loading tracker…</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── SEED DATA ──
+const SEED = [{"ref":"01.01","milestone":"01 · Partner Mobilisation & Governance","activity":"Finalise scope of work, commercials and deliverables with COE","niit_role":"Support","partner_owner":"Saira / Sanjeev","start":"2026-10-19","end":"2026-11-15","status":"In Progress","actual_completion":"","remarks":"Scope, commercials and SoW under active discussion with COE. Pending final sign-off. Will be led by Saira / Sanjeev"},{"ref":"01.02","milestone":"01 · Partner Mobilisation & Governance","activity":"Execute legal agreement","niit_role":"Support","partner_owner":"Sanjeev Dhar","start":"2026-10-19","end":"2026-11-15","status":"In Progress","actual_completion":"","remarks":"Legal agreement to follow finalization of SoW. NIIT legal + HDFC legal review required."},{"ref":"1.03","milestone":"01 · Partner Mobilisation & Governance","activity":"Deploy core Partner team: Solutionist, Project Manager and Marketing SPOC","niit_role":"Lead","partner_owner":"Saira / Sanjeev","start":"2026-09-22","end":"2026-10-23","status":"In Progress","actual_completion":"","remarks":"Core team being deployed. Solutionist: Neha Basandani. PM: Rashmi Gupta. Marketing SPOC: TBD"},{"ref":"01.03","milestone":"01 · Partner Mobilisation & Governance","activity":"Create integrated Partner workplan covering all Career Hub formats, dependencies and critical path to launch, including technology, sourcing and learning workplans, trackers and governance mechanisms","niit_role":"Lead","partner_owner":"Saira / Sanjeev","start":"2026-09-22","end":"2026-10-23","status":"Completed","actual_completion":"","remarks":"Core team being deployed. Solutionist: Neha Basandani. PM: Rashmi Gupta. Marketing SPOC: TBD"},{"ref":"01.04","milestone":"01 · Partner Mobilisation & Governance","activity":"Establish Governance rhythm: weekly cadence calls, escalation matrix, SPOC list","niit_role":"Lead","partner_owner":"Saira / Sanjeev","start":"2026-09-22","end":"2026-10-23","status":"Ongoing","actual_completion":"","remarks":""},{"ref":"01.05","milestone":"01 · Partner Mobilisation & Governance","activity":"Set up shared project workspaces, document repositories and communication channels","niit_role":"Lead","partner_owner":"Saira / Sanjeev","start":"2026-09-22","end":"2026-10-23","status":"In Progress","actual_completion":"","remarks":""},{"ref":"02.01","milestone":"02 · Programme Blueprint & Journey Design","activity":"Conduct discovery sessions with HDFC SMEs and L&D team to understand current state","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2026-10-19","end":"2026-11-08","status":"In Progress","actual_completion":"","remarks":"Discovery calls being scheduled with HDFC SMEs"},{"ref":"02.02","milestone":"02 · Programme Blueprint & Journey Design","activity":"Define learner personas, journey stages and success metrics for Career HUB","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2026-10-26","end":"2026-11-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"02.03","milestone":"02 · Programme Blueprint & Journey Design","activity":"Design overall programme architecture: modules, formats, durations and sequencing","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2026-11-01","end":"2026-11-30","status":"Not Started","actual_completion":"","remarks":""},{"ref":"02.04","milestone":"02 · Programme Blueprint & Journey Design","activity":"Create detailed Learning Journey maps for each role/track","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2026-11-10","end":"2026-12-05","status":"Not Started","actual_completion":"","remarks":""},{"ref":"02.05","milestone":"02 · Programme Blueprint & Journey Design","activity":"Present and sign off Programme Blueprint with HDFC Academy team","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2026-12-01","end":"2026-12-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"03.01","milestone":"03 · Content, Curriculum & Simulations","activity":"Develop detailed curriculum frameworks for all identified modules","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2026-11-15","end":"2026-12-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"03.02","milestone":"03 · Content, Curriculum & Simulations","activity":"Commission and review content development for eLearning modules","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2026-12-01","end":"2027-02-28","status":"Not Started","actual_completion":"","remarks":""},{"ref":"03.03","milestone":"03 · Content, Curriculum & Simulations","activity":"Develop AI-powered simulations and scenario-based assessments","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2026-12-15","end":"2027-03-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"03.04","milestone":"03 · Content, Curriculum & Simulations","activity":"HDFC SME review and content sign-off (round 1)","niit_role":"Support","partner_owner":"HDFC L&D","start":"2027-01-15","end":"2027-02-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"03.05","milestone":"03 · Content, Curriculum & Simulations","activity":"Revisions and final content sign-off (round 2)","niit_role":"Support","partner_owner":"HDFC L&D","start":"2027-02-15","end":"2027-03-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"04.01","milestone":"04 · Assessment, Proctoring & Certification","activity":"Define assessment strategy: types, frequency, weightage and pass criteria","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2026-11-15","end":"2026-12-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"04.02","milestone":"04 · Assessment, Proctoring & Certification","activity":"Design and develop formative assessments for each module","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2026-12-15","end":"2027-02-28","status":"Not Started","actual_completion":"","remarks":""},{"ref":"04.03","milestone":"04 · Assessment, Proctoring & Certification","activity":"Set up proctoring solution for certification exams","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2027-01-15","end":"2027-03-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"04.04","milestone":"04 · Assessment, Proctoring & Certification","activity":"Design certification framework and digital credential issuance process","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2027-01-15","end":"2027-03-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"05.01","milestone":"05 · LMS, Technology & Integrations","activity":"Finalize LMS platform selection and licensing","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2026-10-19","end":"2026-11-15","status":"In Progress","actual_completion":"","remarks":"Platform evaluation underway. Shortlist: Cornerstone, Moodle, custom NIIT LMS"},{"ref":"05.02","milestone":"05 · LMS, Technology & Integrations","activity":"Configure LMS environment and set up HDFC Career HUB instance","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2026-11-15","end":"2026-12-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"05.03","milestone":"05 · LMS, Technology & Integrations","activity":"Integrate LMS with HDFC HR systems (HRMS, SAP, Workday)","niit_role":"Support","partner_owner":"HDFC IT","start":"2026-12-01","end":"2027-01-31","status":"Not Started","actual_completion":"","remarks":"HDFC IT team involvement required"},{"ref":"05.04","milestone":"05 · LMS, Technology & Integrations","activity":"UAT and go-live readiness checks for LMS","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2027-01-15","end":"2027-02-28","status":"Not Started","actual_completion":"","remarks":""},{"ref":"06.01","milestone":"06 · Microsite & Career Hub Page","activity":"Define microsite requirements, sitemap and user flows","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2026-10-26","end":"2026-11-15","status":"In Progress","actual_completion":"","remarks":"Requirements gathering in progress"},{"ref":"06.02","milestone":"06 · Microsite & Career Hub Page","activity":"Design and develop Career HUB microsite (UX/UI, content, mobile-first)","niit_role":"Lead","partner_owner":"Marketing SPOC","start":"2026-11-15","end":"2026-12-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"06.03","milestone":"06 · Microsite & Career Hub Page","activity":"Content population, SEO and accessibility review","niit_role":"Lead","partner_owner":"Marketing SPOC","start":"2027-01-01","end":"2027-01-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"06.04","milestone":"06 · Microsite & Career Hub Page","activity":"HDFC sign-off and go-live of microsite","niit_role":"Support","partner_owner":"HDFC Marketing","start":"2027-01-15","end":"2027-02-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"07.01","milestone":"07 · Branding, Marketing & Communications","activity":"Develop HDFC Career HUB brand identity: logo, colour palette, tagline","niit_role":"Lead","partner_owner":"Marketing SPOC","start":"2026-10-19","end":"2026-11-08","status":"In Progress","actual_completion":"","remarks":"Brand brief shared. Initial concepts being developed"},{"ref":"07.02","milestone":"07 · Branding, Marketing & Communications","activity":"Create marketing collateral suite: brochures, emailers, social assets","niit_role":"Lead","partner_owner":"Marketing SPOC","start":"2026-11-08","end":"2026-12-15","status":"Not Started","actual_completion":""},{"ref":"07.03","milestone":"07 · Branding, Marketing & Communications","activity":"Internal launch communication plan and campaign execution","niit_role":"Lead","partner_owner":"Marketing SPOC","start":"2026-12-01","end":"2027-01-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"07.04","milestone":"07 · Branding, Marketing & Communications","activity":"External communication: candidate-facing outreach and social media plan","niit_role":"Lead","partner_owner":"Marketing SPOC","start":"2027-01-01","end":"2027-02-28","status":"Not Started","actual_completion":"","remarks":""},{"ref":"08.01","milestone":"08 · Sourcing & Screening","activity":"Define sourcing channels and candidate target profiles for Career HUB","niit_role":"Lead","partner_owner":"Saira / Sanjeev","start":"2026-10-19","end":"2026-11-08","status":"In Progress","actual_completion":"","remarks":"Sourcing strategy workshop scheduled with HDFC TA team"},{"ref":"08.02","milestone":"08 · Sourcing & Screening","activity":"Set up sourcing partnerships: colleges, job portals, community networks","niit_role":"Lead","partner_owner":"TPaaS Team","start":"2026-11-08","end":"2026-12-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"08.03","milestone":"08 · Sourcing & Screening","activity":"Design and deploy screening assessments (aptitude, domain, fitment)","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2026-11-15","end":"2026-12-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"08.04","milestone":"08 · Sourcing & Screening","activity":"Run pilot sourcing drive and review quality metrics","niit_role":"Lead","partner_owner":"TPaaS Team","start":"2027-01-01","end":"2027-01-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"09.01","milestone":"09 · Counselling & Batch Creation","activity":"Design candidate counselling journey and scripts","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2026-11-15","end":"2026-12-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"09.02","milestone":"09 · Counselling & Batch Creation","activity":"Train counselling team on programme, process and objection handling","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2026-12-15","end":"2027-01-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"09.03","milestone":"09 · Counselling & Batch Creation","activity":"Define batch creation logic: size, composition, start date cadence","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2026-12-01","end":"2026-12-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"09.04","milestone":"09 · Counselling & Batch Creation","activity":"Create first batch and confirm enrolments","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2027-01-15","end":"2027-02-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"10.01","milestone":"10 · Candidate Documentation & Pre-Onboarding","activity":"Define documentation checklist and KYC requirements","niit_role":"Support","partner_owner":"HDFC HR","start":"2026-11-01","end":"2026-11-30","status":"In Progress","actual_completion":"","remarks":"Checklist draft shared with HDFC HR for review"},{"ref":"10.02","milestone":"10 · Candidate Documentation & Pre-Onboarding","activity":"Build digital document collection and verification workflow","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2026-11-15","end":"2026-12-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"10.03","milestone":"10 · Candidate Documentation & Pre-Onboarding","activity":"Design pre-onboarding journey: welcome kit, pre-reads, orientation schedule","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2026-12-01","end":"2027-01-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"10.04","milestone":"10 · Candidate Documentation & Pre-Onboarding","activity":"Conduct pre-onboarding orientation for Batch 1","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2027-02-01","end":"2027-02-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"11.01","milestone":"11 · Programme Delivery & Learner Support","activity":"Trainer identification, briefing and calibration for all modules","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2026-12-01","end":"2027-01-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"11.02","milestone":"11 · Programme Delivery & Learner Support","activity":"Set up learner support helpdesk and escalation SLAs","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2026-12-15","end":"2027-02-01","status":"Not Started","actual_completion":"","remarks":""},{"ref":"11.03","milestone":"11 · Programme Delivery & Learner Support","activity":"Deliver Batch 1 programme (all modules, assessments, coaching)","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2027-02-15","end":"2027-05-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"11.04","milestone":"11 · Programme Delivery & Learner Support","activity":"Learner experience surveys and feedback loops after each module","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2027-02-15","end":"2027-05-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"12.01","milestone":"12 · Internship Management & Automation","activity":"Define internship structure: duration, host branches, rotation logic","niit_role":"Support","partner_owner":"HDFC TA","start":"2026-11-15","end":"2026-12-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"12.02","milestone":"12 · Internship Management & Automation","activity":"Build internship tracking and reporting automation","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2026-12-15","end":"2027-01-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"12.03","milestone":"12 · Internship Management & Automation","activity":"Intern performance monitoring: scorecards, manager ratings and milestones","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2027-02-15","end":"2027-05-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"14.01","milestone":"14 · Reporting, MIS & Dashboards","activity":"Define MIS framework: KPIs, reporting frequency and stakeholder views","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2026-11-01","end":"2026-11-30","status":"In Progress","actual_completion":"","remarks":"MIS framework draft under review"},{"ref":"14.02","milestone":"14 · Reporting, MIS & Dashboards","activity":"Build live dashboards for HDFC and NIIT stakeholders","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2026-11-15","end":"2026-12-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"14.03","milestone":"14 · Reporting, MIS & Dashboards","activity":"Automate weekly MIS reports and exception alerts","niit_role":"Lead","partner_owner":"Rashmi Gupta","start":"2026-12-15","end":"2027-01-31","status":"Not Started","actual_completion":"","remarks":""},{"ref":"15.01","milestone":"15 · Launch Readiness, Go-Live & Post-Launch","activity":"Complete launch readiness checklist across all workstreams","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2027-01-15","end":"2027-02-07","status":"Not Started","actual_completion":"","remarks":""},{"ref":"15.02","milestone":"15 · Launch Readiness, Go-Live & Post-Launch","activity":"Conduct dry-run / mock cohort to test end-to-end process","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2027-01-22","end":"2027-02-07","status":"Not Started","actual_completion":"","remarks":""},{"ref":"15.03","milestone":"15 · Launch Readiness, Go-Live & Post-Launch","activity":"Official Career HUB go-live: Batch 1 kickoff","niit_role":"Lead","partner_owner":"Saira / Sanjeev","start":"2027-02-15","end":"2027-02-15","status":"Not Started","actual_completion":"","remarks":""},{"ref":"15.04","milestone":"15 · Launch Readiness, Go-Live & Post-Launch","activity":"Post-launch review: 30-day health check and course-correction plan","niit_role":"Lead","partner_owner":"Neha Basandani","start":"2027-03-15","end":"2027-03-22","status":"Not Started","actual_completion":"","remarks":""}];
+
+const STATUSES = ['Not Started','In Progress','Ongoing','Completed','On Hold'];
+const STATUS_CLASS = {
+  'In Progress':'s-inprogress','Completed':'s-completed',
+  'Ongoing':'s-ongoing','Not Started':'s-notstarted','On Hold':'s-onhold'
+};
+
+let db = null;
+let rows = {}; // ref -> {status, remarks, updatedAt}
+let seedRows = {}; // ref -> seed data
+let currentFilter = '';
+let currentMilestone = '';
+let currentSearch = '';
+let editingRef = null;
+let unsubscribe = null;
+
+// Build seed lookup
+SEED.forEach(r => { seedRows[r.ref] = r; });
+
+// Populate milestone filter
+const milestones = [...new Set(SEED.map(r => r.milestone))];
+const ms = document.getElementById('filterMilestone');
+milestones.forEach(m => {
+  const opt = document.createElement('option');
+  opt.value = m; opt.textContent = m.substring(0,40) + (m.length>40?'…':'');
+  ms.appendChild(opt);
+});
+
+function showToast(msg, dur=2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+
+function fmtDate(d) {
+  if (!d) return '';
+  const p = d.split('-');
+  if (p.length < 3) return d;
+  return p[2]+'/'+p[1].replace(/^0/,'')+'/'+(p[0].slice(2));
+}
+
+function statusBadge(s) {
+  const cls = STATUS_CLASS[s] || 's-notstarted';
+  return `<span class="status-badge ${cls}">${s||'Not Started'}</span>`;
+}
+
+function updateSummary() {
+  const visible = getVisibleRows();
+  const counts = {all:visible.length, 'In Progress':0, Ongoing:0, Completed:0, 'Not Started':0, 'On Hold':0};
+  visible.forEach(r => {
+    const s = (rows[r.ref]?.status || r.status || 'Not Started');
+    if (counts[s] !== undefined) counts[s]++;
+  });
+  document.getElementById('cnt-all').textContent = counts.all;
+  document.getElementById('cnt-ip').textContent = counts['In Progress'];
+  document.getElementById('cnt-ongoing').textContent = counts['Ongoing'];
+  document.getElementById('cnt-completed').textContent = counts['Completed'];
+  document.getElementById('cnt-ns').textContent = counts['Not Started'];
+  document.getElementById('cnt-hold').textContent = counts['On Hold'];
+  const pct = counts.all ? Math.round((counts['Completed']/counts.all)*100) : 0;
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressLabel').textContent = pct+'% done';
+}
+
+function filterStatus(s) {
+  currentFilter = currentFilter === s ? '' : s;
+  document.querySelectorAll('.stat-pill').forEach(p => p.classList.remove('active'));
+  const id = s ? 'pill-'+s.toLowerCase().replace(' ','-') : 'pill-all';
+  const el = document.getElementById(id) || document.getElementById('pill-all');
+  if (el) el.classList.add('active');
+  renderTable();
+}
+
+function applyFilters() {
+  currentMilestone = document.getElementById('filterMilestone').value;
+  currentSearch = document.getElementById('filterSearch').value.toLowerCase();
+  renderTable();
+}
+
+function clearFilters() {
+  currentFilter = ''; currentMilestone = ''; currentSearch = '';
+  document.getElementById('filterMilestone').value = '';
+  document.getElementById('filterSearch').value = '';
+  document.querySelectorAll('.stat-pill').forEach(p => p.classList.remove('active'));
+  document.getElementById('pill-all').classList.add('active');
+  renderTable();
+}
+
+function getVisibleRows() {
+  return SEED.filter(r => {
+    const s = rows[r.ref]?.status || r.status || 'Not Started';
+    if (currentFilter && s !== currentFilter) return false;
+    if (currentMilestone && r.milestone !== currentMilestone) return false;
+    if (currentSearch && !r.activity.toLowerCase().includes(currentSearch) &&
+        !r.partner_owner.toLowerCase().includes(currentSearch)) return false;
+    return true;
+  });
+}
+
+function renderTable() {
+  const visible = getVisibleRows();
+  const tbody = document.getElementById('tableBody');
+  if (!visible.length) {
+    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state">No matching activities found.</div></td></tr>`;
+    updateSummary();
+    return;
+  }
+
+  let html = '';
+  let lastMilestone = '';
+
+  visible.forEach(seed => {
+    const liveStatus = rows[seed.ref]?.status || seed.status || 'Not Started';
+    const liveRemarks = rows[seed.ref]?.remarks ?? seed.remarks ?? '';
+    const updatedAt = rows[seed.ref]?.updatedAt || '';
+    const isEditing = editingRef === seed.ref;
+
+    if (seed.milestone !== lastMilestone) {
+      lastMilestone = seed.milestone;
+      html += `<tr class="group-header"><td colspan="8">${seed.milestone}</td></tr>`;
+    }
+
+    const remarksHtml = isEditing
+      ? `<textarea class="remarks-input" id="rem-${seed.ref}" rows="3">${escHtml(liveRemarks)}</textarea>`
+      : `<div class="remarks-text ${liveRemarks?'':'empty'}">${liveRemarks ? escHtml(liveRemarks) : 'No remarks yet'}${updatedAt ? `<br><span class="updated-ts">Updated ${fmtTs(updatedAt)}</span>` : ''}</div>`;
+
+    const statusHtml = isEditing
+      ? `<select class="status-select" id="sts-${seed.ref}">${STATUSES.map(s=>`<option value="${s}"${s===liveStatus?' selected':''}>${s}</option>`).join('')}</select>`
+      : statusBadge(liveStatus);
+
+    const actionHtml = isEditing
+      ? `<button class="btn-save" onclick="saveRow('${seed.ref}')">Save</button><button class="btn-cancel" onclick="cancelEdit()">✕</button>`
+      : `<button class="btn-edit" onclick="startEdit('${seed.ref}')">Edit</button>`;
+
+    html += `<tr id="row-${seed.ref.replace('.','_')}">
+      <td class="col-ref"><span class="ref-badge">${escHtml(seed.ref)}</span></td>
+      <td class="col-milestone"><div class="milestone-pill">${escHtml(seed.niit_role)}</div></td>
+      <td class="col-activity">${escHtml(seed.activity)}</td>
+      <td class="col-owner">${escHtml(seed.partner_owner)}</td>
+      <td class="col-dates">${fmtDate(seed.start)}<br>→ ${fmtDate(seed.end)}</td>
+      <td class="col-status">${statusHtml}</td>
+      <td class="col-remarks">${remarksHtml}</td>
+      <td class="col-actions">${actionHtml}</td>
+    </tr>`;
+  });
+
+  tbody.innerHTML = html;
+  updateSummary();
+}
+
+function escHtml(str) {
+  return (str||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function fmtTs(ts) {
+  if (!ts) return '';
+  try {
+    const d = new Date(ts);
+    return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'}) + ' ' + d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  } catch { return ''; }
+}
+
+function startEdit(ref) {
+  editingRef = ref;
+  renderTable();
+  const el = document.getElementById('rem-'+ref);
+  if (el) el.focus();
+}
+
+function cancelEdit() {
+  editingRef = null;
+  renderTable();
+}
+
+async function saveRow(ref) {
+  const statusEl = document.getElementById('sts-'+ref);
+  const remEl = document.getElementById('rem-'+ref);
+  if (!statusEl || !remEl) return;
+
+  const newStatus = statusEl.value;
+  const newRemarks = remEl.value.trim();
+  const updatedAt = new Date().toISOString();
+
+  // Optimistic update
+  rows[ref] = { status: newStatus, remarks: newRemarks, updatedAt };
+  editingRef = null;
+  renderTable();
+  showToast('✓ Saved');
+
+  // Persist to db if available
+  if (db) {
+    try {
+      document.getElementById('globalSaving').classList.add('show');
+      await db.doc('tracker/'+ref.replace('.','_')).set({ status: newStatus, remarks: newRemarks, updatedAt });
+    } catch(e) {
+      console.warn('db save failed', e);
+    } finally {
+      document.getElementById('globalSaving').classList.remove('show');
+    }
+  }
+}
+
+// ── INIT DB ──
+async function initDb() {
+  try {
+    db = await claude.use('db');
+    if (!db) { renderTable(); return; }
+
+    // Subscribe to all tracker docs
+    unsubscribe = db.collection('tracker').onSnapshot(snap => {
+      snap.docs.forEach(doc => {
+        if (doc.exists) {
+          const d = doc.data();
+          // map back ref: replace _ with . (first _ only for refs like 01_01)
+          const ref = doc.id.replace('_','.');
+          rows[ref] = { status: d.status, remarks: d.remarks, updatedAt: d.updatedAt };
+        }
+      });
+      // Don't interrupt an active edit
+      if (!editingRef) renderTable();
+      else updateSummary();
+    }, err => {
+      console.warn('db snapshot error', err);
+    });
+  } catch(e) {
+    console.warn('db init failed', e);
+    renderTable();
+  }
+}
+
+initDb();
+// Fallback render in case db is slow
+setTimeout(() => {
+  if (document.getElementById('tableBody').querySelector('.loading-row')) {
+    renderTable();
+  }
+}, 1500);
+</script>
+
+</body></html>
