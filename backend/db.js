@@ -26,13 +26,18 @@ class DataStore {
     const { MongoClient } = require('mongodb');
     const client = new MongoClient(MONGODB_URI, { serverSelectionTimeoutMS: 15000 });
     await client.connect();
-    mongoDb = client.db(); // database name comes from the URI (hdfc-tracker)
+    // Database: MONGODB_DB env var, else the name in the URI, else "hdfc-tracker".
+    // Everything lives in ONE collection, "hdfc", with a `type` field ("item" | "log").
+    mongoDb = client.db(process.env.MONGODB_DB || undefined);
+    if (mongoDb.databaseName === 'test') mongoDb = client.db('hdfc-tracker');
+    const col = mongoDb.collection('hdfc');
+    const strip = ({ _id, type, order, ...rest }) => rest;
 
-    const items = await mongoDb.collection('items').find({}).sort({ order: 1 }).toArray();
+    const items = await col.find({ type: 'item' }).sort({ order: 1 }).toArray();
     if (items.length > 0) {
-      this.items = items.map(({ _id, order, ...rest }) => rest);
-      const logs = await mongoDb.collection('activity_logs').find({}).sort({ order: 1 }).toArray();
-      this.activityLogs = logs.map(({ _id, order, ...rest }) => rest);
+      this.items = items.map(strip);
+      const logs = await col.find({ type: 'log' }).sort({ order: 1 }).toArray();
+      this.activityLogs = logs.map(strip);
     } else {
       // First run: migrate existing local data (store.json / activity_log.json), else seed.json
       this.initFromFiles();
@@ -44,19 +49,18 @@ class DataStore {
     console.log(`Loaded ${this.items.length} items from MongoDB`);
   }
 
-  // Serialised write-through: upsert current docs (with order), delete the rest.
-  persistCollection(name, docs, idOf) {
+  // Serialised write-through: upsert current docs (with order), delete removed ones of that type.
+  persistCollection(type, docs, idOf) {
     this.writeChain = this.writeChain
       .then(async () => {
-        const col = mongoDb.collection(name);
-        const ids = docs.map(idOf);
+        const keys = docs.map(d => `${type}:${idOf(d)}`);
         const ops = docs.map((d, i) => ({
-          replaceOne: { filter: { _id: idOf(d) }, replacement: { ...d, order: i }, upsert: true }
+          replaceOne: { filter: { _id: keys[i] }, replacement: { ...d, type, order: i }, upsert: true }
         }));
-        ops.push({ deleteMany: { filter: { _id: { $nin: ids } } } });
-        await col.bulkWrite(ops, { ordered: true });
+        ops.push({ deleteMany: { filter: { type, _id: { $nin: keys } } } });
+        await mongoDb.collection('hdfc').bulkWrite(ops, { ordered: true });
       })
-      .catch(err => console.error(`Failed to persist "${name}" to MongoDB:`, err.message));
+      .catch(err => console.error(`Failed to persist "${type}" to MongoDB:`, err.message));
     return this.writeChain;
   }
 
@@ -108,7 +112,7 @@ class DataStore {
   }
 
   save() {
-    if (this.useDb) return this.persistCollection('items', this.items, d => d.ref);
+    if (this.useDb) return this.persistCollection('item', this.items, d => d.ref);
     if (!this.isPersisting) return;
     try {
       const dir = path.dirname(STORE_FILE);
@@ -121,7 +125,7 @@ class DataStore {
   }
 
   saveLogs() {
-    if (this.useDb) return this.persistCollection('activity_logs', this.activityLogs.slice(0, 500), d => d.id);
+    if (this.useDb) return this.persistCollection('log', this.activityLogs.slice(0, 500), d => d.id);
     if (!this.isPersisting) return;
     try {
       const dir = path.dirname(LOGS_FILE);
